@@ -17,8 +17,8 @@ The versions required are:
 ## Installing the Chart
 To use the charts, you must download this repository or the chart archive file and unpack it into a directory. Assuming this repository was unpacked into the directory `zookeeper-helm`, the chart can then be installed directly:
 ```console
-$ wget https://github.com/frizner/zookeeper-helm/archive/0.1.0.tar.gz 
-$ tar -zxf 0.1.0.tar.gz  
+$ wget https://github.com/frizner/zookeeper-helm/archive/v0.1.0.tar.gz 
+$ tar -zxf v0.1.0.tar.gz  
 $ helm install --name zkcluster1 ./zookeeper-helm-0.1.0
 ```
 As result helm should deploy realese `zkcluster1` using default configuration. 
