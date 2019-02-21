@@ -1,0 +1,12 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-pdb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ tpl .Values.labels . | nindent 4 | trim }}
+spec:
+  selector:
+    matchLabels:
+      {{ tpl .Values.matchLabels . | nindent 6 | trim }}
+  maxUnavailable: {{ .Values.cluster.maxUnavailable }}

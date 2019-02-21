@@ -1,0 +1,85 @@
+# Default values for zookeeper.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# https://zookeeper.apache.org/doc/r3.4.5/zookeeperAdmin.html
+zookeeper:
+  heap: 512M
+  storage: 10Gi
+  tickTime: 2000
+  initLimit: 1
+  syncLimit: 5
+  maxClientCnxns: 60
+  snapRetainCount: 3
+  purgeInterval: 12
+  maxSessionTimeout: 40000
+  minSessionTimeout: 4000
+  logLevel: INFO
+  clientPort: 2181
+  serverPort: 2888
+  leadElectionPort: 3888
+  user: 1000
+  group: 1000
+
+# Cluster and pod parameters
+cluster:
+  image: "k8s.gcr.io/kubernetes-zookeeper:1.0-3.4.10"
+  imagePullPolicy: IfNotPresent
+  size: 3
+  maxUnavailable: 1
+
+  # If set to `enabled` restricts network access to server and election ports of each node by nodes
+  # of the same Zookeeper cluster. `NetworkPolicy` should be enabled on a Kubernetes cluster
+  networkPolicy: disabled
+
+  resources: |
+    requests:
+      memory: 1Gi
+      cpu: 0.5
+    limits:
+      memory: 2Gi
+      cpu: 1
+
+  livenessProbe: |
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 2
+
+  readinessProbe: |
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+
+  # Affinity Settings
+  # Commenting out or setting as empty the affinity variable, will allow
+  # deployment to single node services such as Minikube
+  affinity: |
+    podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: {{ template "zookeeper.name" . }}
+                    operator: In
+                    values:
+                    - {{ .Release.Name }}
+              topologyKey: "kubernetes.io/hostname"
+
+
+# Labels used to mark release/Zookeper cluster resources
+labels: |
+  app: {{ template "zookeeper.name" . }}
+  helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  zkcluster: {{ .Release.Name }}
+  app.kubernetes.io/managed-by: {{ .Release.Service }}
+
+# Selector of release/Zookeeper cluster resources
+matchLabels: |
+  app: {{ template "zookeeper.name" . }}
+  zkcluster: {{ .Release.Name }}
+
