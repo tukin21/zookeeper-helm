@@ -17,7 +17,9 @@ The versions required are:
 ## Installing the Chart
 To use the charts, you must download this repository or the chart archive file and unpack it into a directory. Assuming this repository was unpacked into the directory `zookeeper-helm`, the chart can then be installed directly:
 ```console
-$ helm install --name zkcluster1 ./zookeeper-helm
+$ wget https://github.com/frizner/zookeeper-helm/archive/0.1.0.tar.gz 
+$ tar -zxf 0.1.0.tar.gz  
+$ helm install --name zkcluster1 ./zookeeper-helm-0.1.0
 ```
 As result helm should deploy realese `zkcluster1` using default configuration. 
 The [configuration](#configuration) section lists the parameters that can be configured during the installation.
@@ -27,7 +29,7 @@ The [configuration](#configuration) section lists the parameters that can be con
 To uninstall/delete the chart/`zkcluster1` deployment:
 
 ```console
-$ helm delete zkcluster1
+$ helm delete --purge zkcluster1
 ```
 The command removes all the Kubernetes components associated with the release, excluding `PersistentVolumeClaim` resources, and deletes the release.
 
@@ -68,6 +70,14 @@ $ helm install --name zkcluster1 -f values.yaml ./zookeeper-helm
 ```
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Cleanup orphaned Persistent Volumes
 
+Deleting a StateFul will not delete associated Persistent Volumes.
+
+Do the following after deleting the chart release to clean up orphaned Persistent Volumes.
+
+```bash
+$ kubectl delete pvc -l zkcluster=${RELEASE-NAME}
+```
 
 
