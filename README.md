@@ -1,4 +1,4 @@
-#Zookeeper helm chart
+# Zookeeper helm chart
 The simple helm chart bases on an implementation of the [ZooKeeper StatefulSet](https://github.com/helm/charts/tree/master/incubator/zookeeper) in [kubernetes/contrib](https://github.com/kubernetes/contrib) repo.
 
 ## Prerequisites
