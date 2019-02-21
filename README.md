@@ -33,6 +33,16 @@ $ helm delete --purge zkcluster1
 ```
 The command removes all the Kubernetes components associated with the release, excluding `PersistentVolumeClaim` resources, and deletes the release.
 
+## Cleanup orphaned Persistent Volumes
+
+Deleting a StateFul will not delete associated Persistent Volumes.
+
+Do the following after deleting the chart release to clean up orphaned Persistent Volumes.
+
+```bash
+$ kubectl delete pvc -l zkcluster=zkcluster1
+```
+
 ## Configuration
 
 The following tables lists some of the configurable parameters of the Zookeeper chart and their default values.
@@ -69,15 +79,5 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 $ helm install --name zkcluster1 -f values.yaml ./zookeeper-helm
 ```
 > **Tip**: You can use the default [values.yaml](values.yaml)
-
-## Cleanup orphaned Persistent Volumes
-
-Deleting a StateFul will not delete associated Persistent Volumes.
-
-Do the following after deleting the chart release to clean up orphaned Persistent Volumes.
-
-```bash
-$ kubectl delete pvc -l zkcluster=${RELEASE-NAME}
-```
 
 
