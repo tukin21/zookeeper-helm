@@ -1,6 +1,7 @@
 ZooKeeper can be accessed via port {{ .Values.clientPort }} on the following DNS name from within your cluster:
 
-    {{ template "zookeeper.client-service-name" . }}.svc.cluster.local
+    {{ template "zookeeper.client-service-name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+    {{ template "zookeeper.client-service-name" . }}.{{ .Release.Namespace }}
 
 
 To connect to your ZooKeeper server run the following commands:
