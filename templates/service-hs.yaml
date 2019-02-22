@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-hs
+  name: {{ template "zookeeper.headless-service-name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ tpl .Values.labels . | nindent 4 | trim }}
+    {{ include "zookeeper.labels" . | indent 4 | trim }}
 spec:
   clusterIP: None
   ports:
-    - port: {{ .Values.zookeeper.serverPort }}
+    - port: {{ .Values.serverPort }}
       name: server
-    - port: {{ .Values.zookeeper.leadElectionPort }}
+    - port: {{ .Values.leadElectionPort }}
       name: leader-election
   selector:
-    {{ tpl .Values.matchLabels . | nindent 4 | trim }}
+    {{ include "zookeeper.selector" . | indent 4 | trim }}

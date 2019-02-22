@@ -1,25 +1,25 @@
-{{- if eq (.Values.cluster.networkPolicy | lower) "enabled" }}
+{{- if eq (.Values.networkPolicy | lower) "enabled" }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ .Release.Name }}-networkpolicy
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ tpl .Values.labels . | nindent 4 | trim }}
+    {{ include "zookeeper.labels" . | indent 4  | trim }}
 spec:
   podSelector:
     matchLabels:
-      {{ tpl .Values.matchLabels . | nindent 6 | trim }}
+      {{ include "zookeeper.selector" . | indent 6  | trim }}
   policyTypes:
   - Ingress
   ingress:
   - from:
     - podSelector:
         matchLabels:
-          {{ tpl .Values.matchLabels . | nindent 10 | trim }}
+          {{ include "zookeeper.selector" . | indent 10  | trim }}
     ports:
     - protocol: TCP
-      port: {{ .Values.zookeeper.serverPort }}
+      port: {{ .Values.serverPort }}
     - protocol: TCP
-      port: {{ .Values.zookeeper.leadElectionPort }}
+      port: {{ .Values.leadElectionPort }}
 {{- end }}

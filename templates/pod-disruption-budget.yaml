@@ -4,9 +4,9 @@ metadata:
   name: {{ .Release.Name }}-pdb
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ tpl .Values.labels . | nindent 4 | trim }}
+{{ include "zookeeper.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
-      {{ tpl .Values.matchLabels . | nindent 6 | trim }}
-  maxUnavailable: {{ .Values.cluster.maxUnavailable }}
+      {{ include "zookeeper.selector" . | indent 6  | trim }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}

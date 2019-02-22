@@ -30,3 +30,37 @@ Create chart name and version as used by the chart label.
 {{- define "zookeeper.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+{{/*
+Define the name of the headless service for zookeeper
+*/}}
+{{- define "zookeeper.headless-service-name" -}}
+{{- printf "%s-%s" .Release.Name "hs" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Define the name of the client service for zookeeper
+*/}}
+{{- define "zookeeper.client-service-name" -}}
+{{- printf "%s-%s" .Release.Name "cs" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+  Define the labels that should be applied to all resources in the chart
+*/}}
+{{- define "zookeeper.labels" -}}
+app: {{ template "zookeeper.name" . }}
+helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+zkcluster: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+
+{{/*
+  Define the labels that should be used by selectors
+*/}}
+{{- define "zookeeper.selector" -}}
+app: {{ template "zookeeper.name" . }}
+zkcluster: {{ .Release.Name }}
+{{- end -}}
