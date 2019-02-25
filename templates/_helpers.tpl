@@ -47,6 +47,14 @@ Define the name of the client service for zookeeper
 {{- end -}}
 
 {{/*
+Define the name of the pod disruption budget for zookeeper
+*/}}
+{{- define "zookeeper.pod-disruption-budget-name" -}}
+{{- printf "%s-%s" .Release.Name "pdb" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+
+{{/*
   Define the labels that should be applied to all resources in the chart
 */}}
 {{- define "zookeeper.labels" -}}
