@@ -1,10 +1,10 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ .Release.Name }}-pdb
+  name: {{ template "zookeeper.pod-disruption-budget-name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-{{ include "zookeeper.labels" . | indent 4 }}
+    {{ include "zookeeper.labels" . | indent 4 | trim }}
 spec:
   selector:
     matchLabels:
