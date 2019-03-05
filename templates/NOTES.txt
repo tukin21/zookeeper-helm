@@ -6,7 +6,7 @@ ZooKeeper can be accessed via port {{ .Values.clientPort }} on the following DNS
 
 To connect to your ZooKeeper server run the following commands:
 
-    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "zookeeper.name" . }}" -o jsonpath="{.items[0].metadata.name}")
+    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "zkcluster={{ template "zookeeper.cluster-name" . }}" -o jsonpath="{.items[0].metadata.name}")
     kubectl exec -it $POD_NAME -- zkCli.sh
 
     or

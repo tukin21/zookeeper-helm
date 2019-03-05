@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ template "zookeeper.cluster-name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{ include "zookeeper.labels" . | indent 4 | trim}}
@@ -27,7 +27,7 @@ spec:
                   - key: {{ template "zookeeper.name" . }}
                     operator: In
                     values:
-                    - {{ .Release.Name }}
+                    - {{ template "zookeeper.cluster-name" . }}
               topologyKey: "kubernetes.io/hostname"
       containers:
       - name: kubernetes-zookeeper

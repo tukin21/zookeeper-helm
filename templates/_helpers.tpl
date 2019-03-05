@@ -31,6 +31,13 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Create zookeeper cluster name.
+*/}}
+{{- define "zookeeper.cluster-name" -}}
+{{- .Release.Name | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 
 {{/*
 Define the name of the headless service for zookeeper
@@ -51,6 +58,13 @@ Define the name of the pod disruption budget for zookeeper
 */}}
 {{- define "zookeeper.pod-disruption-budget-name" -}}
 {{- printf "%s-%s" .Release.Name "pdb" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Define the name of the network policy for zookeeper
+*/}}
+{{- define "zookeeper.networkpolicy-name" -}}
+{{- printf "%s-%s" .Release.Name "networkpolicy" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
