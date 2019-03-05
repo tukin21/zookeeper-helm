@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-networkpolicy
+  name: {{ template "zookeeper.networkpolicy-name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{ include "zookeeper.labels" . | indent 4  | trim }}
