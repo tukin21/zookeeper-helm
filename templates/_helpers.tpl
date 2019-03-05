@@ -25,14 +25,14 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
-Create chart name and version as used by the chart label.
+Define chart name and version as used by the chart label.
 */}}
 {{- define "zookeeper.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-Create zookeeper cluster name.
+Define zookeeper cluster name.
 */}}
 {{- define "zookeeper.cluster-name" -}}
 {{- .Release.Name | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
@@ -43,28 +43,28 @@ Create zookeeper cluster name.
 Define the name of the headless service for zookeeper
 */}}
 {{- define "zookeeper.headless-service-name" -}}
-{{- printf "%s-%s" .Release.Name "hs" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "hs" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the client service for zookeeper
 */}}
 {{- define "zookeeper.client-service-name" -}}
-{{- printf "%s-%s" .Release.Name "cs" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "cs" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the pod disruption budget for zookeeper
 */}}
 {{- define "zookeeper.pod-disruption-budget-name" -}}
-{{- printf "%s-%s" .Release.Name "pdb" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "pdb" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the network policy for zookeeper
 */}}
 {{- define "zookeeper.networkpolicy-name" -}}
-{{- printf "%s-%s" .Release.Name "networkpolicy" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "networkpolicy" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -74,7 +74,7 @@ Define the name of the network policy for zookeeper
 {{- define "zookeeper.labels" -}}
 app: {{ template "zookeeper.name" . }}
 helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-zkcluster: {{ .Release.Name }}
+zkcluster: {{ template "zookeeper.cluster-name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
@@ -84,5 +84,5 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 */}}
 {{- define "zookeeper.selector" -}}
 app: {{ template "zookeeper.name" . }}
-zkcluster: {{ .Release.Name }}
+zkcluster: {{ template "zookeeper.cluster-name" . }}
 {{- end -}}
