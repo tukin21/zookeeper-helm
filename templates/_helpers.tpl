@@ -43,28 +43,28 @@ Define zookeeper cluster name.
 Define the name of the headless service for zookeeper
 */}}
 {{- define "zookeeper.headless-service-name" -}}
-{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "hs" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name "hs" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the client service for zookeeper
 */}}
 {{- define "zookeeper.client-service-name" -}}
-{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "cs" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name "cs" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the pod disruption budget for zookeeper
 */}}
 {{- define "zookeeper.pod-disruption-budget-name" -}}
-{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "pdb" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name "pdb" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Define the name of the network policy for zookeeper
 */}}
 {{- define "zookeeper.networkpolicy-name" -}}
-{{- printf "%s-%s" {{ template "zookeeper.cluster-name" . }} "networkpolicy" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name "networkpolicy" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
