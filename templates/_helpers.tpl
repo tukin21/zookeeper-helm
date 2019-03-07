@@ -61,10 +61,17 @@ Define the name of the pod disruption budget for zookeeper
 {{- end -}}
 
 {{/*
-Define the name of the network policy for zookeeper
+Define the name of the server network policy for zookeeper
 */}}
-{{- define "zookeeper.networkpolicy-name" -}}
-{{- printf "%s-%s" .Release.Name "networkpolicy" | trunc 63 | trimSuffix "-" -}}
+{{- define "zookeeper.server-networkpolicy-name" -}}
+{{- printf "%s-%s" .Release.Name "server-networkpolicy" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Define the name of the server network policy for zookeeper
+*/}}
+{{- define "zookeeper.client-networkpolicy-name" -}}
+{{- printf "%s-%s" .Release.Name "client-networkpolicy" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
