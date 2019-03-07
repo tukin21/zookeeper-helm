@@ -45,7 +45,7 @@ $ kubectl delete pvc -l zkcluster=zkcluster1
 
 ## Configuration
 
-The following tables lists some of the configurable parameters of the Zookeeper chart and their default values.
+The following table lists some of the configurable parameters of the Zookeeper chart and their default values.
 
 |Parameter|Description|Default
 ---:|:---:|:---
